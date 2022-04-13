@@ -1,0 +1,128 @@
+@use "sass:math";
+@import "./nullstyles";
+@import "./Common";
+
+.param-editor {
+	font-size: $fontSize;
+	font-family: $fontFamily;
+	display: flex;
+	justify-content: center;
+	padding-top: rem(40);
+	height: 100vh;
+	&__container {
+		padding: 0 rem(15);
+	}
+	&__configurator {
+		display: flex;
+		@include adaptiv-value("gap", 80, 30, 1500, 700, 1);
+	}
+	&__params {
+		position: relative;
+	}
+	&__param {
+		margin-bottom: rem(15);
+		caret-color: transparent;
+		&-value {
+			display: flex;
+			align-items: center;
+			line-height: math.div(22, 14);
+			border: 1px solid rgba(119, 119, 113, 1);
+			line-height: math.div(22, 14);
+			font-size: rem(14);
+			border-radius: 4px;
+			background: rgba(240, 240, 237, 1);
+			padding: 0 rem(9) 0 rem(25);
+			transition: all 0.2s ease 0s;
+			&:not(:last-child) {
+				margin-bottom: rem(5);
+			}
+		}
+		&-form {
+		}
+		&-name {
+		}
+	}
+	&__model-value {
+		&-input {
+			&:not(:last-child) {
+				margin-bottom: rem(5);
+			}
+		}
+	}
+	&__submit-button {
+		margin-top: rem(10);
+		width: 100%;
+	}
+	&__complited-model {
+		&-value {
+		}
+	}
+	&__delete-button {
+		position: absolute;
+		left: 0;
+		background: rgba(119, 119, 113, 1);
+		border-radius: 4px;
+		font-weight: 400;
+		font-size: rem(14);
+		text-align: center;
+		color: #fff;
+		padding: rem(3) rem(6);
+		transition: all 0.2s ease 0s;
+		@media (any-hover: hover) {
+			&:hover {
+				background: rgba(119, 119, 113, 0.8);
+			}
+		}
+		&:active {
+			background: rgba(119, 119, 113, 1);
+		}
+	}
+}
+
+.param-form {
+	display: flex;
+	width: 100%;
+	&__input {
+		border-right: unset;
+		flex: 1 1 auto;
+		padding-top: rem(2);
+		padding-bottom: rem(2);
+		border-radius: 4px 0 0 4px;
+	}
+	&__button {
+		border-radius: 0 4px 4px 0;
+	}
+}
+.complited-model {
+	border-radius: 10px;
+	width: 70%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: rem(25) auto 0 auto;
+	padding-bottom: rem(25);
+
+	&__row {
+		line-height: math.div(20, 14);
+		border-bottom: 2px solid rgb(119, 119, 113);
+		border-radius: 2px;
+		&:not(:last-child) {
+			margin-bottom: rem(5);
+		}
+		display: flex;
+		justify-content: space-between;
+	}
+	&__param {
+		max-width: 35%;
+		word-wrap: break-word;
+	}
+	&__model {
+		word-wrap: break-word;
+		max-width: 35%;
+	}
+}
+
+.button {
+}
+.input {
+}

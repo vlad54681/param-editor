@@ -1,0 +1,154 @@
+@use "sass:math";
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500,600,700&display=swap");
+
+@function prc($pxOne, $pxTwo) {
+	//Ширину объекта / ширину блока"
+	$result: math.div($pxOne, $pxTwo) * 100%;
+	@return $result;
+}
+@function rem($px) {
+	$result: math.div($px, 16) + rem;
+	@return $result;
+}
+@function em($px, $fz: 16) {
+	$result: math.div($px, $fz) + em;
+	@return $result;
+}
+$fontFamily: "Montserrat";
+$fontSize: 1.125; //rem
+$mainColor: #000;
+$minWidth: 320;
+$maxWidth: 1920;
+$maxWidthContainer: 1590;
+$containerPadding: 30;
+$responsiveType: 1;
+$containerWidth: $maxWidthContainer + $containerPadding;
+$pc: em($containerWidth); //em($containerWidth);  ПК, ноутбуки, некоторые планшеты в гориз положении
+$tablet: em(991.98); //em(991.98); // Планшеты, некоторые телефоны в гориз положении
+$mobile: em(767.98); //em(767.98); // Телефоны L
+$mobileSmall: em(479.98); //em(479.98); // Телефоны S
+
+@if ($responsiveType==1) {
+	// Отзывчивая
+	[class*="__container"] {
+		@if ($maxWidthContainer>0) {
+			max-width: rem($maxWidthContainer);
+			box-sizing: border-box;
+			margin: 0 auto;
+		}
+		@if ($containerPadding>0) {
+			padding: 0 rem(math.div($containerPadding, 2));
+		}
+	}
+} @else {
+	// По брейкпойнтам
+	[class*="__container"] {
+		margin: 0 auto;
+		@if ($maxWidthContainer>0) {
+			max-width: rem($maxWidthContainer);
+			box-sizing: border-box;
+		} @else {
+			@if ($containerPadding>0) {
+				padding: 0 rem(math.div($containerPadding, 2));
+			}
+		}
+		@media (max-width: $pc) {
+			max-width: rem(970);
+		}
+		@media (max-width: $tablet) {
+			max-width: rem(750);
+		}
+		@media (max-width: $mobile) {
+			max-width: none;
+			@if ($containerPadding>0 and $maxWidthContainer>0) {
+				padding: 0 rem(math.div($containerPadding, 2));
+			}
+		}
+	}
+}
+
+[class*="-ibg"] {
+	position: relative;
+	img {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		object-fit: cover;
+	}
+}
+[class*="-ibg_contain"] {
+	img {
+		object-fit: contain;
+	}
+}
+
+@mixin adaptiv-value(
+	$property: null,
+	$startSize: null,
+	$minSize: null,
+	$widthForm: $containerWidth,
+	$widthTo: $minWidth,
+	$type: 0
+) {
+	$addSize: $startSize - $minSize;
+	@if $type==1 {
+		// Только если ширина экрана меньше контейнера
+		#{$property}: $startSize + px;
+		@media (max-width: #{$widthForm + px}) {
+			#{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - #{$widthTo + px}) / #{$widthForm - $widthTo}));
+		}
+	} @else if $type==2 {
+		// Только если ширина экрана больше контейнера
+		#{$property}: $startSize + px;
+		@media (min-width: #{$widthForm + px}) {
+			#{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - #{$widthTo + px}) / #{$maxWidth - $widthTo}));
+		}
+	} @else {
+		// Всегда
+		#{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - #{$widthTo + px}) / #{$maxWidth - $widthTo}));
+	}
+	@media (max-width: #{$widthTo + px}) {
+		#{$property}: #{$minSize + px};
+	}
+}
+
+.button {
+	caret-color: transparent;
+	display: inline-block;
+	background: rgba(119, 119, 113, 0.6);
+	border-radius: 4px;
+	font-weight: 600;
+	font-size: rem(14);
+	text-align: center;
+	color: #fff;
+	padding: rem(3) rem(13);
+	line-height: math.div(22, 14);
+	transition: all 0.2s ease 0s;
+	@media (any-hover: hover) {
+		&:hover {
+			background: rgba(119, 119, 113, 0.8);
+		}
+	}
+	&:active {
+		background: rgba(119, 119, 113, 1);
+	}
+}
+.input {
+	border: 1px solid rgb(119, 119, 113);
+	line-height: math.div(22, 14);
+	font-size: rem(14);
+	border-radius: 4px;
+	background: rgba(240, 240, 237, 0.2);
+	padding: 0 rem(9);
+	transition: all 0.2s ease 0s;
+	@media (any-hover: hover) {
+		&:hover {
+			background: rgba(240, 240, 237, 1);
+		}
+	}
+	&:focus {
+		box-shadow: 0px 4px 25px rgba(36, 35, 34, 0.4);
+	}
+}
